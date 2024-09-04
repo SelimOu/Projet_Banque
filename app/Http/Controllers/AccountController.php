@@ -12,7 +12,18 @@ use Illuminate\Http\Request;
 class AccountController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/accounts",
+     *     summary="List all accounts",
+     *     @OA\Response(
+     *         response=200,
+     *         description="A list of accounts",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Account")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -21,16 +32,53 @@ class AccountController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/accounts",
+     *     summary="Create a new account",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id","type","source","amount","date"},
+     *             @OA\Property(property="user_id", type="integer"),
+     *             @OA\Property(property="type", type="string"),
+     *             @OA\Property(property="source", type="string"),
+     *             @OA\Property(property="amount", type="number", format="float"),
+     *             @OA\Property(property="date", type="string", format="date")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Account created",
+     *         @OA\JsonContent(ref="#/components/schemas/Account")
+     *     )
+     * )
      */
     public function store(StoreAccountRequest $request)
     {
         $accounts = Account::create($request->validated());
         return new AccountResource($accounts);
-    
     }
+
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/accounts/{id}",
+     *     summary="Get an account by ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Account details",
+     *         @OA\JsonContent(ref="#/components/schemas/Account")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Account not found"
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -39,11 +87,39 @@ class AccountController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/accounts/{id}",
+     *     summary="Update an account",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id","type","source","amount","date"},
+     *             @OA\Property(property="user_id", type="integer"),
+     *             @OA\Property(property="type", type="string"),
+     *             @OA\Property(property="source", type="string"),
+     *             @OA\Property(property="amount", type="number", format="float"),
+     *             @OA\Property(property="date", type="string", format="date")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Account updated",
+     *         @OA\JsonContent(ref="#/components/schemas/Account")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Account not found"
+     *     )
+     * )
      */
-    public function update( Request $request,  $id)
+    public function update(Request $request, $id)
     {
-
         $accounts = Account::find($id);
         $request->validate([
             'user_id' => 'required',
@@ -52,14 +128,29 @@ class AccountController extends Controller
             'amount' => 'required',
             'date' => 'required',
         ]);
-        $accounts->update(['name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,]);
-        return  $accounts;
+        $accounts->update($request->all()); // Correction de la mise à jour
+        return $accounts;
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/accounts/{id}",
+     *     summary="Delete an account",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Account deleted"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Account not found"
+     *     )
+     * )
      */
     public function destroy(String $id)
     {

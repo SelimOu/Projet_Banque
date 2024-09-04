@@ -1,0 +1,540 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "User API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/accounts": {
+            "get": {
+                "summary": "List all accounts",
+                "operationId": "13efa5706d1fae14fc1cf87c9f6b1427",
+                "responses": {
+                    "200": {
+                        "description": "A list of accounts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Account"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new account",
+                "operationId": "e974666bc6c050296a8ee09a3ab6533f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "type",
+                                    "source",
+                                    "amount",
+                                    "date"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "source": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Account created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Account"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/accounts/{id}": {
+            "get": {
+                "summary": "Get an account by ID",
+                "operationId": "552b29d7944dfff7a0c49abc83f44ea5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Account"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Account not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an account",
+                "operationId": "9be8085be375b01725706b78df130bca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "type",
+                                    "source",
+                                    "amount",
+                                    "date"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "source": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Account updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Account"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Account not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete an account",
+                "operationId": "102c60c5fd1e94be8c71c4efbeb51bf8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Account deleted"
+                    },
+                    "404": {
+                        "description": "Account not found"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "summary": "List all users",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "A list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new user",
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "summary": "Get a user by ID",
+                "operationId": "36a33ff774d5cba33c039dec2c3e0287",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a user",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a user",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Account": {
+                "title": "Account",
+                "description": "Account model",
+                "required": [
+                    "user_id",
+                    "type",
+                    "source",
+                    "amount",
+                    "date"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the account",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "description": "The ID of the user associated with the account",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "type": {
+                        "description": "The type of the account (e.g., savings, checking)",
+                        "type": "string",
+                        "example": "savings"
+                    },
+                    "source": {
+                        "description": "The source of the account funds",
+                        "type": "string",
+                        "example": "salary"
+                    },
+                    "amount": {
+                        "description": "The amount in the account",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.5
+                    },
+                    "date": {
+                        "description": "The date of the account entry",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-09-04"
+                    },
+                    "fillable": {
+                        "description": "The attributes that are mass assignable.",
+                        "type": "array",
+                        "items": {
+                            "description": "Attributes that are mass assignable",
+                            "type": "string",
+                            "example": "user_id"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "The name of the user",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "The email address of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "email_verified_at": {
+                        "description": "The date and time when the email was verified",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-09-04T12:34:56Z"
+                    },
+                    "password": {
+                        "description": "The hashed password of the user",
+                        "type": "string",
+                        "example": "$2y$10$..."
+                    },
+                    "remember_token": {
+                        "description": "A token to remember the user",
+                        "type": "string",
+                        "example": "abc123"
+                    },
+                    "two_factor_recovery_codes": {
+                        "description": "Two-factor authentication recovery codes",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "code1",
+                            "code2"
+                        ]
+                    },
+                    "two_factor_secret": {
+                        "description": "The secret for two-factor authentication",
+                        "type": "string",
+                        "example": "ABCD1234"
+                    },
+                    "profile_photo_url": {
+                        "description": "The URL of the user's profile photo",
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://example.com/profile_photo.jpg"
+                    },
+                    "casts": {
+                        "description": "Attributes that should be cast to other types",
+                        "properties": {
+                            "email_verified_at": {
+                                "description": "Get the attributes that should be cast.",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "password": {
+                                "type": "string",
+                                "example": "hashed"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "fillable": {
+                        "description": "The attributes that are mass assignable.",
+                        "type": "array",
+                        "items": {
+                            "description": "Attributes that are mass assignable",
+                            "type": "string",
+                            "example": "name"
+                        }
+                    },
+                    "hidden": {
+                        "description": "The attributes that should be hidden for serialization.",
+                        "type": "array",
+                        "items": {
+                            "description": "Attributes that should be hidden in serialization",
+                            "type": "string",
+                            "example": "password"
+                        }
+                    },
+                    "appends": {
+                        "description": "The accessors to append to the model's array form.",
+                        "type": "array",
+                        "items": {
+                            "description": "Attributes that should be appended to the model's array form",
+                            "type": "string",
+                            "example": "profile_photo_url"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
