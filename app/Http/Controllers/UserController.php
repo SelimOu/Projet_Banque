@@ -7,6 +7,10 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+
+
 
 /**
  * @OA\Info(title="User API", version="1.0.0")
@@ -154,4 +158,46 @@ class UserController extends Controller
         $Users->delete();
         return response(null,204);
     }
+    public function login(Request $request)
+    {
+        // if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        //     throw ValidationException::withMessages(['message' => "Les informations d'identification fournies sont incorrectes"]);
+        // }
+
+        // if (auth('sanctum')->check()) {
+        //     auth()->user()->tokens()->delete();
+        // }
+
+       
+        $token = Auth::user()
+                ->createToken('app_token', ['*'])
+                ->plainTextToken; 
+
+        $user = Auth::user();
+                dd($user);
+
+        return [$user, $token];
+    }
+
+    public function register(StoreUserRequest $request)
+    {
+        $user = User::create($request->validated());
+        
+        return [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'auth_token'=> $user->createToken('auth_token',['*'])->plainTextToken
+        ];
+    }
+
+    public function logout(StoreUserRequest $request)
+    {
+        $user->currentAccessToken()->delete;
+        return ('token supprimé')
+
+        ;
+    }
+
+
 }
