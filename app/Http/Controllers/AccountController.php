@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Resources\AccountResource;
+use Illuminate\Http\Request;
 
 
 class AccountController extends Controller
@@ -40,10 +41,21 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAccountRequest $request, String $id)
+    public function update( Request $request,  $id)
     {
-        $accounts->update($request->validate());
-        return new AccountResource($id);
+
+        $accounts = Account::find($id);
+        $request->validate([
+            'user_id' => 'required',
+            'type' => 'required',
+            'source' => 'required',
+            'amount' => 'required',
+            'date' => 'required',
+        ]);
+        $accounts->update(['name' => $this->name,
+            'email' => $this->email,
+            'password' => $this->password,]);
+        return  $accounts;
     }
 
     /**
