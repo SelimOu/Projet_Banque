@@ -17,7 +17,6 @@ class UpdateAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required'],
             'type' => ['required'],
             'source' => ['required'],
             'amount' => ['required'],

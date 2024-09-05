@@ -12,7 +12,7 @@ class AccountResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'user_id'=>$this->user_id,
+            'user_id'=>$this->user,
             'type'=>$this->type,
             'source'=>$this->source,
             'amount'=>$this->amount,

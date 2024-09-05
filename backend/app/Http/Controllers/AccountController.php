@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Account;
 use App\Http\Requests\StoreAccountRequest;
@@ -55,8 +56,17 @@ class AccountController extends Controller
      */
     public function store(StoreAccountRequest $request)
     {
-        $accounts = Account::create($request->validated());
-        return new AccountResource($accounts);
+        $user = Auth::user();
+        $accounts = Account::create([
+            
+            'user_id'=>$user->id,
+            'type'=>$request->type,
+            'source'=>$request->source,
+            'amount'=>$request->amount,
+            'date'=>$request->date,
+        ]
+        );
+        return $accounts;
     }
 
     /**
