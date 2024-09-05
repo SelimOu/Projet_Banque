@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DeleteAccount from './deleteAccounr';
 
 function Account() {
     const [data, setData] = useState([]);
@@ -35,6 +36,8 @@ function Account() {
         return <p style={{ color: 'red' }}>{error}</p>;
     }
 
+
+
     return (
         <div className="p-6">
             <div>
@@ -61,7 +64,10 @@ function Account() {
                             <p className="flex-1">
                                 <strong>Date :</strong> {transaction.date}
                             </p>
+                            <DeleteAccount itemId={transaction.id} />
                         </div>
+
+
                     </div>
                 ))}
             </div>
