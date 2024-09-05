@@ -160,23 +160,22 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
-        // if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-        //     throw ValidationException::withMessages(['message' => "Les informations d'identification fournies sont incorrectes"]);
-        // }
+    $credentials = $request->only('email', 'password');
 
-        // if (auth('sanctum')->check()) {
-        //     auth()->user()->tokens()->delete();
-        // }
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => "Les informations d'identification fournies sont incorrectes"], 401);
+    }
 
-       
-        $token = Auth::user()
-                ->createToken('app_token', ['*'])
-                ->plainTextToken; 
+    $user = Auth::user();
+    if (!$user) {
+        return response()->json(['message' => "L'utilisateur n'est pas authentifié"], 401);
+    }
 
-        $user = Auth::user();
-                dd($user);
+    $user->tokens()->delete();
 
-        return [$user, $token];
+    $token = $user->createToken('app_token', ['*'])->plainTextToken;
+
+    return response()->json(['user' => $user, 'token' => $token], 200);
     }
 
     public function register(StoreUserRequest $request)
@@ -191,12 +190,13 @@ class UserController extends Controller
         ];
     }
 
-    public function logout(StoreUserRequest $request)
+    public function logout(Request $request)
     {
-        $user->currentAccessToken()->delete;
-        return ('token supprimé')
+    $user = $request->user();
 
-        ;
+    $user->currentAccessToken()->delete();
+
+    return response()->json(['message' => 'Token supprimé'], 200);
     }
 
 
