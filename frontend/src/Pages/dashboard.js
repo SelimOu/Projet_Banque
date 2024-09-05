@@ -1,6 +1,10 @@
+import Account from "../componants/account";
+
 function Dashboard() {
-    return (
+    return (<div>
         <h1>Dashboard</h1>
+        <Account />
+    </div>
     )
 }
 export default Dashboard;
