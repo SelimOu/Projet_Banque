@@ -4,6 +4,7 @@ import Home from './Pages/Home';
 import Dashboard from './Pages/dashboard'
 import Register from './componants/register';
 import CreateAccount from './componants/createAccount';
+import UpdateAccount from './componants/updateAccount';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/createaccount" element={<CreateAccount />} />
+      <Route path="/account/update/:id" element={<UpdateAccount />} />
     </Routes>
   );
 }

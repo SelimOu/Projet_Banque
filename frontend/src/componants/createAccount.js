@@ -33,7 +33,6 @@ function CreateAccount() {
             });
 
             setMessage('Transaction créée avec succès!');
-            console.log('Réponse de l\'API:', response.data);
 
             setUserId('');
             setType('');

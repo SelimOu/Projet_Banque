@@ -132,14 +132,12 @@ class AccountController extends Controller
     {
         $accounts = Account::find($id);
         $request->validate([
-            'user_id' => 'required',
             'type' => 'required',
             'source' => 'required',
             'amount' => 'required',
             'date' => 'required',
         ]);
-        $accounts->update($request->all()); // Correction de la mise à jour
-        return $accounts;
+        $accounts->update($request->all()); 
     }
 
     /**
