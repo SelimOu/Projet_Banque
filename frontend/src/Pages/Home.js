@@ -1,5 +1,4 @@
 import Login from "../componants/login";
-import Register from "../componants/register";
 
 function Home() {
     return (

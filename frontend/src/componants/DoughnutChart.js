@@ -3,7 +3,6 @@ import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 
-// Enregistrer les éléments nécessaires pour le graphique Doughnut
 Chart.register(ArcElement, Tooltip, Legend);
 
 function DoughnutChart() {
@@ -22,7 +21,7 @@ function DoughnutChart() {
                     },
                 });
 
-                setData(response.data.data);  // Assurez-vous que les données sont correctes
+                setData(response.data.data);  
                 setLoading(false);
             } catch (error) {
                 console.error('Erreur lors de la récupération des données', error);
@@ -34,7 +33,6 @@ function DoughnutChart() {
         fetchData();
     }, [token]);
 
-    // Traitement des données pour le Doughnut Chart
     const chartData = () => {
         let entree = 0;
         let sortie = 0;
@@ -43,7 +41,7 @@ function DoughnutChart() {
             if (transaction.type === 'entree') {
                 entree += transaction.amount;
             } else if (transaction.type === 'sortie') {
-                sortie += Math.abs(transaction.amount);  // On prend la valeur absolue pour les sorties
+                sortie += Math.abs(transaction.amount); 
             }
         });
 
@@ -53,24 +51,21 @@ function DoughnutChart() {
                 {
                     label: 'Transactions',
                     data: [entree, sortie],
-                    backgroundColor: ['#4caf50', '#f44336'],  // Vert pour les entrées, rouge pour les sorties
+                    backgroundColor: ['#4caf50', '#f44336'],  
                     hoverBackgroundColor: ['#66bb6a', '#e57373'],
                 },
             ],
         };
     };
 
-    // Options de configuration du graphique
     const options = {
         plugins: {
             tooltip: {
                 callbacks: {
-                    // Ajouter des callbacks personnalisés pour le contenu du tooltip
                     label: function (context) {
                         const label = context.label || '';
                         const value = context.raw || 0;
 
-                        // Afficher le total pour les entrées/sorties
                         if (label === 'Entrées') {
                             return `Entrées: ${value}€ (Total: ${data.filter(t => t.type === 'entree').reduce((acc, t) => acc + t.amount, 0)}€)`;
                         } else if (label === 'Sorties') {

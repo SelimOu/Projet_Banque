@@ -105,7 +105,6 @@ function Account() {
                     </div>
                 ))}
             </div>
-            {/* Insérer le diagramme Doughnut */}
             <div className="my-8">
                 <DoughnutChart />
             </div>

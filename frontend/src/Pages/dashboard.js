@@ -16,7 +16,6 @@ function Dashboard() {
                 </a>
             </div>
 
-            {/* Account Component */}
             <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
                 <Account />
             </div>
