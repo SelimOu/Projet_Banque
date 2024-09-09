@@ -29,7 +29,6 @@ function Login() {
                 localStorage.setItem('token', token);
 
                 setSuccessMessage('Connexion réussie!');
-                console.log('Connexion réussie', response.data);
 
                 navigate('/dashboard');
             }

@@ -28,9 +28,13 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::all();
+        $user = auth()->user();
+        
+        $accounts = Account::where('user_id', $user->id)->get();
+        
         return AccountResource::collection($accounts);
     }
+    
 
     /**
      * @OA\Post(
