@@ -18,7 +18,7 @@ function UpdateAccount() {
     useEffect(() => {
         const fetchTransaction = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/account/${id}`, {
+                const response = await axios.get(`https://projet-banque-1.onrender.com/api/account/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -45,7 +45,7 @@ function UpdateAccount() {
 
         try {
             const response = await axios.put(
-                `http://127.0.0.1:8000/api/account/${id}`,
+                `https://projet-banque-1.onrender.com/api/account/${id}`,
                 {
                     type: type,
                     source: source,

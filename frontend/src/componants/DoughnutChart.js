@@ -15,13 +15,13 @@ function DoughnutChart() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/account', {
+                const response = await axios.get('https://projet-banque-1.onrender.com/api/account', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
 
-                setData(response.data.data);  
+                setData(response.data.data);
                 setLoading(false);
             } catch (error) {
                 console.error('Erreur lors de la récupération des données', error);
@@ -41,7 +41,7 @@ function DoughnutChart() {
             if (transaction.type === 'entree') {
                 entree += transaction.amount;
             } else if (transaction.type === 'sortie') {
-                sortie += Math.abs(transaction.amount); 
+                sortie += Math.abs(transaction.amount);
             }
         });
 
@@ -51,7 +51,7 @@ function DoughnutChart() {
                 {
                     label: 'Transactions',
                     data: [entree, sortie],
-                    backgroundColor: ['#4caf50', '#f44336'],  
+                    backgroundColor: ['#4caf50', '#f44336'],
                     hoverBackgroundColor: ['#66bb6a', '#e57373'],
                 },
             ],

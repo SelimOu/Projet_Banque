@@ -6,7 +6,7 @@ function DeleteAccount({ itemId, onDelete }) {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/account/${itemId}`, {
+            await axios.delete(`https://projet-banque-1.onrender.com/api/account/${itemId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',

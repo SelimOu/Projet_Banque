@@ -18,19 +18,20 @@ function Login() {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/login', {
-                email: email,
-                password: password,
+            const response = await axios.post('https://projet-banque-1.onrender.com/api/login', {
+                email,
+                password,
             });
 
             const token = response.data.token;
+            console.log(token);
 
             if (token) {
-                localStorage.setItem('token', token);
-
+                localStorage.setItem('token', token);  // Stocke le token
                 setSuccessMessage('Connexion réussie!');
 
-                navigate('/dashboard');
+
+                window.location.href = '/dashboard';
             }
 
         } catch (error) {
@@ -42,10 +43,10 @@ function Login() {
     };
 
     return (
-        <div className=" flex flex-col items-center justify-center bg-gray-100">
+        <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-sm bg-white p-8 rounded-lg shadow-md "
+                className="w-full max-w-sm bg-white p-8 rounded-lg shadow-md"
             >
                 <div>
                     <label className="block text-gray-700">Email:</label>

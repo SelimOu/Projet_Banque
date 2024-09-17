@@ -11,7 +11,7 @@ function Logout() {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/logout', {}, {
+            const response = await axios.post('https://projet-banque-1.onrender.com/api/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

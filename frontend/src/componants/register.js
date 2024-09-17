@@ -19,7 +19,7 @@ function Register() {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('https://projet-banque.onrender.com/api/resgister', {
+            const response = await axios.post('https://projet-banque-1.onrender.com/api/register', {
                 name: name,
                 email: email,
                 password: password,
