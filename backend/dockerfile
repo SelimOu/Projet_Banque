@@ -1,14 +1,17 @@
-# Utiliser une image officielle PHP avec des extensions nécessaires
-FROM php:8.2-cli
+# Étape 1 : Construction
+FROM php:8.2-cli AS build
 
 # Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Installer les extensions PHP nécessaires
-RUN docker-php-ext-install pdo pdo_mysql
+# Installer les dépendances nécessaires
 RUN apt-get update && \
-    apt-get install -y libzip-dev unzip git && \
-    docker-php-ext-install pdo pdo_mysql zip
+    apt-get install -y \
+    libzip-dev \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-install pdo pdo_mysql zip
 
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -16,19 +19,32 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copier les fichiers de l'application dans le conteneur
 COPY backend/ /var/www/html
 
+# Installer les dépendances PHP avec Composer
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --verbose
+
+# Étape 2 : Production (image plus légère)
+FROM php:8.2-cli
+
+# Copier les fichiers depuis l'étape de construction
+COPY --from=build /var/www/html /var/www/html
+
+# Définir le répertoire de travail
+WORKDIR /var/www/html
+
 # Assurer que le fichier artisan est exécutable
-RUN chmod +x /var/www/html/artisan
+RUN chmod +x /var/www/html/artisan && \
+    chown -R www-data:www-data /var/www/html
 
-# Assurer que les permissions sont correctes
-RUN chown -R www-data:www-data /var/www/html
-
-# Installer les dépendances PHP avec Composer (avec logs détaillés)
-RUN composer install --verbose
+# Installer les extensions PHP nécessaires (pdo_mysql et zip sont déjà installés)
+RUN docker-php-ext-install pdo_mysql zip
 
 # Exposer le port 9200
 EXPOSE 9200
 
-# Démarrer Laravel avec php artisan serve sur le port 9200 et exécuter les migrations
-CMD php artisan serve --host=0.0.0.0 --port=9200 & \
-    sleep 10 && \
-    php artisan migrate --force
+# Utiliser `wait-for-it` pour attendre que la base de données soit prête avant de lancer les migrations
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
+
+# Démarrer Laravel avec php artisan serve et exécuter les migrations
+CMD /usr/local/bin/wait-for-it db:3306 -- php artisan migrate --force && \
+    php artisan serve --host=0.0.0.0 --port=9200
