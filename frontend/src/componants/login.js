@@ -9,7 +9,6 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
-    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,7 +26,7 @@ function Login() {
             console.log(token);
 
             if (token) {
-                localStorage.setItem('token', token);  // Stocke le token
+                localStorage.setItem('token', token);
                 setSuccessMessage('Connexion réussie!');
 
 

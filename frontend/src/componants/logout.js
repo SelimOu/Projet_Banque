@@ -16,6 +16,8 @@ function Logout() {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log(response);
+
             localStorage.removeItem('token');
             navigate('/');
 

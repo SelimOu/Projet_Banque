@@ -59,6 +59,8 @@ function UpdateAccount() {
                     },
                 }
             );
+            console.log(response);
+
 
             setMessage('Transaction mise à jour avec succès !');
             setLoading(false);
