@@ -196,29 +196,13 @@
                 }
             }
         },
-        "/api/users": {
-            "get": {
-                "summary": "List all users",
-                "operationId": "c457726701591d1183b53aa71fc13441",
-                "responses": {
-                    "200": {
-                        "description": "A list of users",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+        "/api/register": {
             "post": {
-                "summary": "Create a new user",
-                "operationId": "592819a0265360b2014512d6dbfaf0e7",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register a new user",
+                "operationId": "2f25885f3b6f61ca11724ec302d2e439",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -227,18 +211,26 @@
                                 "required": [
                                     "name",
                                     "email",
-                                    "password"
+                                    "password",
+                                    "password_confirmation"
                                 ],
                                 "properties": {
                                     "name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Test User"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "format": "email"
+                                        "format": "email",
+                                        "example": "test@example.com"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "password123"
                                     }
                                 },
                                 "type": "object"
@@ -248,21 +240,76 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "User created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
+                        "description": "User registered successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login a user",
+                "operationId": "0fc9610184083ac6dddab2c63139225a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "test@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get all users",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "List of users"
                     }
                 }
             }
         },
         "/api/users/{id}": {
             "get": {
-                "summary": "Get a user by ID",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user by ID",
                 "operationId": "36a33ff774d5cba33c039dec2c3e0287",
                 "parameters": [
                     {
@@ -276,14 +323,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
+                        "description": "User found"
                     },
                     "404": {
                         "description": "User not found"
@@ -291,6 +331,9 @@
                 }
             },
             "put": {
+                "tags": [
+                    "User"
+                ],
                 "summary": "Update a user",
                 "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
                 "parameters": [
@@ -310,19 +353,25 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "email",
-                                    "password"
+                                    "email"
                                 ],
                                 "properties": {
                                     "name": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Updated Name"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "format": "email"
+                                        "format": "email",
+                                        "example": "updatedemail@example.com"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "newpassword123"
                                     }
                                 },
                                 "type": "object"
@@ -332,21 +381,20 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User updated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
+                        "description": "User updated successfully"
                     },
                     "404": {
                         "description": "User not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
                     }
                 }
             },
             "delete": {
+                "tags": [
+                    "User"
+                ],
                 "summary": "Delete a user",
                 "operationId": "fa56cffde745d3f152f95cbacd936c0b",
                 "parameters": [
@@ -361,7 +409,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "User deleted"
+                        "description": "User deleted successfully"
                     },
                     "404": {
                         "description": "User not found"
@@ -536,5 +584,11 @@
                 "type": "object"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "User",
+            "description": "Operations related to users"
+        }
+    ]
 }
